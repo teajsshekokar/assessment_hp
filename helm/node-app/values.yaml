@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: helloprint
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  containerPort: 5001
+  servicePort: 80
+
+env:
+  POSTGRES_HOST: postgres-postgres
+  POSTGRES_PORT: 5432
+  POSTGRES_DB: helloprint
+  REDIS_HOST: redis-master
+  REDIS_PORT: 6379
+
+# Secret should contain the following key
+# postgres-password
+# postgres-user
+secretName: node-app-secret

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Manager</title>
+    <script>
+        async function putData() {
+            const name = document.getElementById("dataInput").value;
+            if (!name) {
+                alert("Please enter a name");
+                return;
+            }
+            
+            const response = await fetch("/put_data", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: Date.now(), name })
+            });
+            
+            const result = await response.json();
+            alert(result.message || result.error);
+        }
+
+        async function getData() {
+            const response = await fetch("/get_data");
+            const data = await response.json();
+            
+            const dataList = document.getElementById("dataList");
+            dataList.innerHTML = "";
+            
+            if (Array.isArray(data)) {
+                data.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = `${item.name}`;
+                    dataList.appendChild(li);
+                });
+            } else {
+                alert(data.message || "Error fetching data");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>HelloPrint Assessment</h1>
+    <input type="text" id="dataInput" placeholder="Enter name">
+    <button onclick="putData()">Submit</button>
+    <button onclick="getData()">Get Data</button>
+    <ul id="dataList"></ul>
+</body>
+</html>

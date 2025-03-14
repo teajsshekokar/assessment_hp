@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres-container
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=helloprint
+    volumes:
+      - postgres_17_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis
+    container_name: redis-container
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_17_data:

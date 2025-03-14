@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+        - name: node-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 5001
+          env:
+            - name: POSTGRES_HOST
+              value: "{{ .Values.env.POSTGRES_HOST }}"
+            - name: POSTGRES_PORT
+              value: "{{ .Values.env.POSTGRES_PORT }}"
+            - name: POSTGRES_DB
+              value: "{{ .Values.env.POSTGRES_DB }}"
+            - name: REDIS_HOST
+              value: "{{ .Values.env.REDIS_HOST }}"
+            - name: REDIS_PORT
+              value: "{{ .Values.env.REDIS_PORT }}"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: postgres-user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: postgres-password

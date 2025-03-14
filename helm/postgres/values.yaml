@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: bitnami/postgresql
+  tag: 17.4.0-debian-12-r4
+  pullPolicy: IfNotPresent
+
+postgresql:
+  username: admin
+  password: admin
+  database: helloprint
+
+service:
+  enabled: true
+  annotations: {}
+  type: ClusterIP
+  port: 5432
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 1Gi  # Adjust storage size as needed
