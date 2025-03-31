@@ -1,4 +1,4 @@
-# HelloPrint Assessment  
+# Assessment  
 
 Thank you for giving me this opportunity. I have completed the assessment as per the given instructions.  
 
